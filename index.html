@@ -3,154 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D&D Enemy Wiki</title>
+    <title>D&D Hunter's Journal</title>
     <style>
         :root {
-            --dnd-red: #822000;
-            --parchment: #fdf6e3;
+            --hk-black: #0d0f14;
+            --hk-slate: #1c1f26;
+            --hk-blue: #3ea6ff;
+            --hk-white: #e0e0e0;
+            --hk-border: #444b59;
+            --hk-void: #12141a;
+            --hk-delete: #ff4d4d;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #eee;
-            padding: 20px;
+            font-family: 'Garamond', serif;
+            background-color: var(--hk-black);
+            color: var(--hk-white);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
         .container {
-            max-width: 1000px;
-            margin: auto;
-            background: var(--parchment);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 1200px;
         }
-        h1 { color: var(--dnd-red); text-align: center; }
-        
+
+        h1 {
+            font-size: 2.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            text-align: center;
+            border-bottom: 2px solid var(--hk-border);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(62, 166, 255, 0.4);
+        }
+
+        /* Form Styling */
+        .input-section {
+            background: var(--hk-slate);
+            padding: 25px;
+            border: 1px solid var(--hk-border);
+            border-radius: 4px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .input-section h3 {
+            margin-top: 0;
+            color: var(--hk-blue);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 15px;
+        }
+
+        input {
+            background: #000;
+            border: 1px solid var(--hk-border);
+            color: white;
+            padding: 10px;
+            border-radius: 2px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--hk-blue);
+            box-shadow: 0 0 5px var(--hk-blue);
+        }
+
+        .btn-add {
+            grid-column: 1 / -1;
+            padding: 14px;
+            background-color: transparent;
+            color: var(--hk-white);
+            border: 1px solid var(--hk-blue);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-add:hover {
+            background-color: var(--hk-blue);
+            color: black;
+            box-shadow: 0 0 20px var(--hk-blue);
+        }
+
         /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            background: var(--hk-slate);
+            border: 1px solid var(--hk-border);
         }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 12px;
-            text-align: center;
-        }
-        th { background-color: var(--dnd-red); color: white; }
-        tr:nth-child(even) { background-color: #f2ead2; }
 
-        /* Form Styling */
-        .admin-section {
-            background: #eaddca;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+        th {
+            background-color: var(--hk-void);
+            color: var(--hk-blue);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            padding: 18px;
+            border-bottom: 2px solid var(--hk-border);
         }
-        .form-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 10px;
+
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid var(--hk-border);
         }
-        input {
-            padding: 8px;
-            border: 1px solid #aaa;
-            border-radius: 4px;
+
+        tr:hover {
+            background-color: rgba(62, 166, 255, 0.07);
         }
-        button {
-            grid-column: span 2;
-            padding: 10px;
-            background: var(--dnd-red);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+
+        .name-col {
             font-weight: bold;
+            color: #fff;
+            text-align: left;
         }
-        button:hover { background: #a32a00; }
+
+        /* Delete Button */
+        .btn-delete {
+            background: none;
+            border: 1px solid #555;
+            color: #888;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .btn-delete:hover {
+            border-color: var(--hk-delete);
+            color: var(--hk-delete);
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>⚔️ Monster Compendium</h1>
+    <h1>D&D Hunter's Journal</h1>
 
-    <div class="admin-section">
-        <h3>Add New Enemy</h3>
-        <form id="enemyForm" class="form-group">
+    <div class="input-section">
+        <h3>Record a New Encounter</h3>
+        <form id="beastForm" class="form-grid">
             <input type="number" id="id" placeholder="ID" required>
             <input type="text" id="name" placeholder="Enemy Name" required>
+            <input type="text" id="cr" placeholder="CR">
+            <input type="number" id="ac" placeholder="AC">
+            <input type="number" id="hp" placeholder="HP">
             <input type="number" id="str" placeholder="STR">
             <input type="number" id="dex" placeholder="DEX">
             <input type="number" id="con" placeholder="CON">
             <input type="number" id="int" placeholder="INT">
             <input type="number" id="wis" placeholder="WIS">
             <input type="number" id="cha" placeholder="CHA">
-            <button type="submit">Add to Wiki</button>
+            <button type="submit" class="btn-add">Update Journal</button>
         </form>
     </div>
 
-    <table id="wikiTable">
+    <table id="beastTable">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th style="text-align: left;">Name</th>
+                <th>CR</th>
+                <th>AC</th>
+                <th>HP</th>
                 <th>STR</th>
                 <th>DEX</th>
                 <th>CON</th>
                 <th>INT</th>
                 <th>WIS</th>
                 <th>CHA</th>
+                <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>001</td>
-                <td>Goblin</td>
-                <td>8</td>
-                <td>14</td>
-                <td>10</td>
-                <td>10</td>
-                <td>8</td>
-                <td>8</td>
-            </tr>
-        </tbody>
+        <tbody id="tableBody">
+            </tbody>
     </table>
 </div>
 
 <script>
-    const form = document.getElementById('enemyForm');
-    const tableBody = document.querySelector('#wikiTable tbody');
+    const form = document.getElementById('beastForm');
+    const tableBody = document.getElementById('tableBody');
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Get values from inputs
-        const id = document.getElementById('id').value;
-        const name = document.getElementById('name').value;
-        const str = document.getElementById('str').value;
-        const dex = document.getElementById('dex').value;
-        const con = document.getElementById('con').value;
-        const int = document.getElementById('int').value;
-        const wis = document.getElementById('wis').value;
-        const cha = document.getElementById('cha').value;
+        // Collect all data
+        const data = {
+            id: document.getElementById('id').value,
+            name: document.getElementById('name').value,
+            cr: document.getElementById('cr').value,
+            ac: document.getElementById('ac').value,
+            hp: document.getElementById('hp').value,
+            str: document.getElementById('str').value,
+            dex: document.getElementById('dex').value,
+            con: document.getElementById('con').value,
+            int: document.getElementById('int').value,
+            wis: document.getElementById('wis').value,
+            cha: document.getElementById('cha').value
+        };
 
-        // Create a new row
+        // Create the row
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${id}</td>
-            <td><strong>${name}</strong></td>
-            <td>${str}</td>
-            <td>${dex}</td>
-            <td>${con}</td>
-            <td>${int}</td>
-            <td>${wis}</td>
-            <td>${cha}</td>
+            <td>${data.id}</td>
+            <td class="name-col">${data.name}</td>
+            <td>${data.cr}</td>
+            <td>${data.ac}</td>
+            <td>${data.hp}</td>
+            <td>${data.str}</td>
+            <td>${data.dex}</td>
+            <td>${data.con}</td>
+            <td>${data.int}</td>
+            <td>${data.wis}</td>
+            <td>${data.cha}</td>
+            <td><button class="btn-delete">Strike</button></td>
         `;
 
-        // Append to table
-        tableBody.appendChild(row);
+        // Add delete functionality to the button
+        row.querySelector('.btn-delete').addEventListener('click', function() {
+            row.remove();
+        });
 
-        // Clear the form
+        tableBody.appendChild(row);
         form.reset();
+        document.getElementById('id').focus();
     });
 </script>
 
